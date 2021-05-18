@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -6,7 +8,8 @@ namespace Subnautica_Bar
 {
     public partial class Bar : Window
     {
-        public double Per = 1;
+        private double Per = 1;
+        private bool StillWorking = true;
         const double Thikness = 28;
         const double R = 105 - Thikness;
         const double Delta = 0.02;
@@ -17,7 +20,22 @@ namespace Subnautica_Bar
         {
             InitializeComponent();
             Arc.Size = new Size(R, R);
-            Update(Per);
+            GetCPULoadAsync();
+        }
+
+        private async void GetCPULoadAsync()
+        {
+            PerformanceCounter cpuCounter = new("Processor", "% Processor Time", "_Total");
+            //double first = cpuCounter.NextValue();
+            while (StillWorking)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    Per = cpuCounter.NextValue()/100;
+                    Update(Per);
+                });
+                await Task.Delay(1000);
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -27,19 +45,19 @@ namespace Subnautica_Bar
 
         private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (e.Delta > 0 && Per < 1)
+            /*if (e.Delta > 0 && Per < 1)
             {
                 Update(Per + Delta);
             }
             else if (e.Delta < 0 && Per > 0)
             {
                 Update(Per - Delta);
-            }
-
+            }*/
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
+            StillWorking = false;
             Application.Current.Shutdown();
         }
 
