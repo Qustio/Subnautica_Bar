@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:Subnautica_Bar"
         mc:Ignorable="d"
         Title="Subnautica-Bar" 
-        Height="210" 
-        Width="210" 
-        ResizeMode="NoResize" 
-        WindowStyle="None" 
+        Height="210"
+        Width="210"
+        ResizeMode="NoResize"
+        WindowStyle="None"
         Loaded="Window_Loaded"
         AllowsTransparency="True" 
         MouseWheel="Window_MouseWheel" 
-        Closing="Window_Closing">
+        Closing="Window_Closing" Topmost="True" ShowInTaskbar="False">
     <Window.Background>
         <LinearGradientBrush EndPoint="{DynamicResource LinearGradientBrushEndPoint}" StartPoint="{DynamicResource LinearGradientBrushStartPoint}">
             <GradientStop Color="#00000000"/>
@@ -66,12 +66,13 @@
                 </PathGeometry>
             </Path.Data>
         </Path>
-        <TextBlock HorizontalAlignment="Left" Text="Water" VerticalAlignment="Top" Height="76" Width="120" Foreground="White" TextAlignment="Center" FontSize="30" FontFamily="Dubai Light" Margin="48,64,0,0"/>
-        <TextBlock x:Name="PercentageTextBlock" HorizontalAlignment="Center" VerticalAlignment="Top" Height="60" Width="120" Foreground="White" TextAlignment="Center" FontSize="38" FontFamily="Dubai Light" Margin="0,91,0,0" Text="100%"/>
+        <TextBlock HorizontalAlignment="Left" Text="CPU" VerticalAlignment="Top" Height="76" Width="120" Foreground="White" TextAlignment="Center" FontSize="30" FontFamily="Dubai Light" Margin="48,64,0,0"/>
+        <TextBlock x:Name="PercentageTextBlock" HorizontalAlignment="Center" VerticalAlignment="Top" Height="60" Width="120" Foreground="White" TextAlignment="Center" FontSize="38" FontFamily="Dubai Light" Margin="0,91,0,0" Text="50%"/>
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Exit" Click="Exit"/>
-                <MenuItem Header="Reset" Click="Reset"/>
+                <MenuItem x:Name="ResetButton" IsEnabled="False" Header="Reset" Click="Reset"/>
+                <MenuItem x:Name="ManualButton" Header="Manual mode" Click="Mode_Click"/>
             </ContextMenu>
         </Grid.ContextMenu>
     </Grid>

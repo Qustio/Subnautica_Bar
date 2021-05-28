@@ -10,6 +10,7 @@ namespace Subnautica_Bar
     {
         private double Per = 1;
         private bool StillWorking = true;
+        private bool ShowCPU = true;
         const double Thikness = 28;
         const double R = 105 - Thikness;
         const double Delta = 0.02;
@@ -29,11 +30,13 @@ namespace Subnautica_Bar
             //double first = cpuCounter.NextValue();
             while (StillWorking)
             {
-                Dispatcher.Invoke(() =>
+                if (ShowCPU)
                 {
-                    Per = cpuCounter.NextValue()/100;
-                    Update(Per);
-                });
+                    Dispatcher.Invoke(() =>
+                    {
+                        Update(cpuCounter.NextValue() / 100);
+                    });
+                }
                 await Task.Delay(1000);
             }
         }
@@ -45,14 +48,39 @@ namespace Subnautica_Bar
 
         private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            /*if (e.Delta > 0 && Per < 1)
+            if (!ShowCPU)
             {
-                Update(Per + Delta);
+                if (e.Delta > 0 && Per <= 1)
+                {
+                    Update(Per + Delta);
+                }
+                else if (e.Delta < 0 && Per >= 0)
+                {
+                    Update(Per - Delta);
+                }
             }
-            else if (e.Delta < 0 && Per > 0)
+        }
+
+        private void Reset(object sender, RoutedEventArgs e)
+        {
+            Update(0.5);
+        }
+
+        private void Mode_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowCPU)
             {
-                Update(Per - Delta);
-            }*/
+                ShowCPU = false;
+                Update(0.5);
+                ResetButton.IsEnabled = true;
+                ManualButton.Header = "CPU mode";
+            }
+            else
+            {
+                ShowCPU = true;
+                ResetButton.IsEnabled = false;
+                ManualButton.Header = "Manual mode";
+            }
         }
 
         private void Exit(object sender, RoutedEventArgs e)
@@ -66,10 +94,7 @@ namespace Subnautica_Bar
             Application.Current.Shutdown();
         }
 
-        private void Reset(object sender, RoutedEventArgs e)
-        {
-            Update(1);
-        }
+        
 
         private Point CalcPoint(double A, double Offset)
         {
