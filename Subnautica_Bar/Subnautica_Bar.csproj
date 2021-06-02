@@ -5,11 +5,20 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <StartupObject>Subnautica_Bar.App</StartupObject>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <Authors>Qustio</Authors>
+    <Company>Qustio</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <WarningLevel>2</WarningLevel>
   </PropertyGroup>
 
 </Project>

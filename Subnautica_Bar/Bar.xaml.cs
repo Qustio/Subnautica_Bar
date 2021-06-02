@@ -26,7 +26,7 @@ namespace Subnautica_Bar
 
         private async void GetCPULoadAsync()
         {
-            PerformanceCounter cpuCounter = new("Processor", "% Processor Time", "_Total");
+            PerformanceCounter cpuCounter = new ("Processor", "% Processor Time", "_Total");
             //double first = cpuCounter.NextValue();
             while (StillWorking)
             {
